@@ -6,13 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/redButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_height="85dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#F40707"
+        android:text="Red"
+        app:layout_constraintBottom_toTopOf="@+id/greenButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.777" />
+
+    <Button
+        android:id="@+id/greenButton"
+        android:layout_width="wrap_content"
+        android:layout_height="85dp"
+        android:backgroundTint="#569F21"
+        android:text="Green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.603" />
+
+    <Button
+        android:id="@+id/blueButton"
+        android:layout_width="wrap_content"
+        android:layout_height="85dp"
+        android:backgroundTint="#1C36D5"
+        android:text="Blue"
+        app:layout_constraintBottom_toTopOf="@+id/greenButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.226"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/redButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/yellowButton"
+        android:layout_width="wrap_content"
+        android:layout_height="85dp"
+        android:layout_marginStart="88dp"
+        android:backgroundTint="#EFB821"
+        android:text="Yellow"
+        app:layout_constraintBottom_toTopOf="@+id/greenButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.013"
+        app:layout_constraintStart_toEndOf="@+id/blueButton"
+        app:layout_constraintTop_toBottomOf="@+id/redButton"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
