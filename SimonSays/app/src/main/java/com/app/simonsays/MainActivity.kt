@@ -24,10 +24,10 @@ class MainActivity : AppCompatActivity() {
         builder.setAudioAttributes(audioAttributes).setMaxStreams(1)
         soundPool = builder.build()
 
-        val redSound = soundPool.load(this, R.raw.your_audio_file, 1);
-        val greenSound = soundPool.load(this, R.raw.your_audio_file, 1);
-        val blueSound = soundPool.load(this, R.raw.your_audio_file, 1);
-        val yellowSound = soundPool.load(this, R.raw.your_audio_file, 1);
+        val redSound = soundPool.load(this, R.raw.red_sound, 1)
+        val greenSound = soundPool.load(this, R.raw.green_sound, 1)
+        val blueSound = soundPool.load(this, R.raw.blue_sound, 1)
+        val yellowSound = soundPool.load(this, R.raw.yellow_sound, 1)
 
 
         val redButton : Button = findViewById(R.id.redButton)
@@ -36,15 +36,24 @@ class MainActivity : AppCompatActivity() {
         val yellowButton : Button = findViewById(R.id.yellowButton)
 
         redButton.setOnClickListener {
-            playSound()
+            playSound(redSound)
+        }
+        greenButton.setOnClickListener {
+            playSound(greenSound)
+        }
+        blueButton.setOnClickListener {
+            playSound(blueSound)
+        }
+        yellowButton.setOnClickListener {
+            playSound(yellowSound)
         }
     }
 
-    fun nextSound() {
-
+    private fun playSound(soundID : Int) {
+        soundPool.play(soundID, 1f, 1f, 1, 0, 1f)
     }
 
-    fun playSound(soundID : Int) {
-        soundPool.play(soundID, 1f, 1f, 1, 0, 1f)
+    private fun nextSound() {
+
     }
 }
