@@ -29,11 +29,18 @@ class MainActivity : AppCompatActivity() {
         val blueSound = soundPool.load(this, R.raw.blue_sound, 1)
         val yellowSound = soundPool.load(this, R.raw.yellow_sound, 1)
 
+        val startButton : Button = findViewById(R.id.startButton)
+        val hasStarted = false
+
 
         val redButton : Button = findViewById(R.id.redButton)
         val greenButton : Button = findViewById(R.id.greenButton)
         val blueButton : Button = findViewById(R.id.blueButton)
         val yellowButton : Button = findViewById(R.id.yellowButton)
+
+        startButton.setOnClickListener {
+
+        }
 
         redButton.setOnClickListener {
             playSound(redSound)
@@ -53,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         soundPool.play(soundID, 1f, 1f, 1, 0, 1f)
     }
 
-    private fun nextSound() {
-
+    private fun startRound() {
+        
     }
 }
