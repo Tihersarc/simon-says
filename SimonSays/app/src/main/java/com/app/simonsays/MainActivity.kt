@@ -5,13 +5,18 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.newFixedThreadPoolContext
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var soundPool : SoundPool
+    private var list : MutableList<Int> = mutableListOf()
+    private var hasStarted = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,8 +35,6 @@ class MainActivity : AppCompatActivity() {
         val yellowSound = soundPool.load(this, R.raw.yellow_sound, 1)
 
         val startButton : Button = findViewById(R.id.startButton)
-        val hasStarted = false
-
 
         val redButton : Button = findViewById(R.id.redButton)
         val greenButton : Button = findViewById(R.id.greenButton)
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         val yellowButton : Button = findViewById(R.id.yellowButton)
 
         startButton.setOnClickListener {
-
+            startRound()
         }
 
         redButton.setOnClickListener {
@@ -60,7 +63,18 @@ class MainActivity : AppCompatActivity() {
         soundPool.play(soundID, 1f, 1f, 1, 0, 1f)
     }
 
-    private fun startRound() {
-        
+    private fun startRound(listLength: Int = 4) {
+        hasStarted = true
+
+        for (i in 0..listLength) {
+            list.add((0..3).random())
+        }
+        Log.d("simon", "This round's list: $list")
+
+        list.forEach {
+            playSound(it)
+
+        }
+
     }
 }
