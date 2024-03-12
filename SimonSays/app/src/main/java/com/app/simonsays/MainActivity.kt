@@ -1,10 +1,13 @@
 package com.app.simonsays
 
 import android.R.integer
+import android.graphics.Color
+import android.graphics.Paint
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +23,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val brush : Paint = Paint()
+        brush.color = Color.RED
+        brush.style = Paint.Style.STROKE
+        brush.strokeWidth = 10f
 
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
@@ -65,15 +73,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun startRound(listLength: Int = 4) {
         hasStarted = true
+        list.clear()
 
         for (i in 0..listLength) {
             list.add((0..3).random())
         }
         Log.d("simon", "This round's list: $list")
 
-        list.forEach {
-            playSound(it)
 
+
+        list.forEach {
+
+            Handler().postDelayed({
+                playSound(it)
+            }, 2000)
         }
 
     }
