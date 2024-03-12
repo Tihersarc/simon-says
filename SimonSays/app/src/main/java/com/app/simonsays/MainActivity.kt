@@ -18,7 +18,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var soundPool : SoundPool
     private var list : MutableList<Int> = mutableListOf()
-    private var hasStarted = false
+    private var userInput : MutableList<Int> = mutableListOf()
+    private var isGameRunning = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,16 +55,44 @@ class MainActivity : AppCompatActivity() {
         }
 
         redButton.setOnClickListener {
-            playSound(redSound)
+            if (!isGameRunning) {
+                playSound(redSound)
+            }
+            else {
+                userInput.add(0)
+                checkInput()
+            }
+
         }
         greenButton.setOnClickListener {
-            playSound(greenSound)
+            if (!isGameRunning) {
+                playSound(greenSound)
+            }
+            else {
+                userInput.add(1)
+                checkInput()
+            }
+
         }
         blueButton.setOnClickListener {
-            playSound(blueSound)
+            if (!isGameRunning) {
+                playSound(blueSound)
+            }
+            else {
+                userInput.add(2)
+                checkInput()
+            }
+
         }
         yellowButton.setOnClickListener {
-            playSound(yellowSound)
+            if (!isGameRunning) {
+                playSound(yellowSound)
+            }
+            else {
+                userInput.add(3)
+                checkInput()
+            }
+
         }
     }
 
@@ -72,7 +101,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startRound(listLength: Int = 4) {
-        hasStarted = true
+        isGameRunning = true
         list.clear()
 
         for (i in 0..listLength) {
@@ -89,5 +118,18 @@ class MainActivity : AppCompatActivity() {
             }, 2000)
         }
 
+    }
+
+    private fun checkInput() {
+        for (i in list.indices) {
+            if (list[i] != userInput[i]) {
+                Log.d("simon", "You lost")
+                isGameRunning = false
+                return
+            }
+        }
+        // If the loop completes without breaking, the input is correct
+        // Move to the next round or perform any necessary actions
+        isGameRunning = false
     }
 }
