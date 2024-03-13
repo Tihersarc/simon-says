@@ -103,8 +103,9 @@ class MainActivity : AppCompatActivity() {
     private fun startRound(listLength: Int = 4) {
         isGameRunning = true
         list.clear()
+        userInput.clear()
 
-        for (i in 0..listLength) {
+        for (i in 0 until listLength) {
             list.add((0..3).random())
         }
         Log.d("simon", "This round's list: $list")
