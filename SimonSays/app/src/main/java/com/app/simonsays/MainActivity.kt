@@ -1,23 +1,21 @@
 package com.app.simonsays
 
-import android.R.integer
 import android.graphics.Color
 import android.graphics.Paint
 import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.newFixedThreadPoolContext
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var soundPool : SoundPool
-    private var list : MutableList<Int> = mutableListOf()
+    private var sequenceList : MutableList<Int> = mutableListOf()
+    private var soundList : MutableList<Int> = mutableListOf()
     private var userInput : MutableList<Int> = mutableListOf()
     private var isGameRunning = false
 
@@ -42,6 +40,11 @@ class MainActivity : AppCompatActivity() {
         val greenSound = soundPool.load(this, R.raw.green_sound, 1)
         val blueSound = soundPool.load(this, R.raw.blue_sound, 1)
         val yellowSound = soundPool.load(this, R.raw.yellow_sound, 1)
+        Log.d("simon", "Red: $redSound , Green: $greenSound , Blue: $blueSound , Yellow: $yellowSound")
+        soundList.add(redSound)
+        soundList.add(greenSound)
+        soundList.add(blueSound)
+        soundList.add(yellowSound)
 
         val startButton : Button = findViewById(R.id.startButton)
 
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 playSound(redSound)
             }
             else {
-                userInput.add(0)
+                userInput.add(1)
                 checkInput()
             }
 
@@ -69,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 playSound(greenSound)
             }
             else {
-                userInput.add(1)
+                userInput.add(2)
                 checkInput()
             }
 
@@ -79,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                 playSound(blueSound)
             }
             else {
-                userInput.add(2)
+                userInput.add(3)
                 checkInput()
             }
 
@@ -89,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 playSound(yellowSound)
             }
             else {
-                userInput.add(3)
+                userInput.add(4)
                 checkInput()
             }
 
@@ -102,35 +105,34 @@ class MainActivity : AppCompatActivity() {
 
     private fun startRound(listLength: Int = 4) {
         isGameRunning = true
-        list.clear()
+        sequenceList.clear()
         userInput.clear()
 
         for (i in 0 until listLength) {
-            list.add((0..3).random())
+            sequenceList.add((1..4).random())
         }
-        Log.d("simon", "This round's list: $list")
+        Log.d("simon", "This round's list: $sequenceList")
 
 
 
-        list.forEach {
-
-            Handler().postDelayed({
-                playSound(it)
-            }, 2000)
-        }
+//        sequenceList.forEach {
+//
+//            Handler().postDelayed({
+//                playSound(it)
+//            }, 2000)
+//        }
 
     }
 
     private fun checkInput() {
-        for (i in list.indices) {
-            if (list[i] != userInput[i]) {
+        for (i in userInput.indices) {
+            if (sequenceList[i] != userInput[i]) {
                 Log.d("simon", "You lost")
                 isGameRunning = false
                 return
             }
         }
-        // If the loop completes without breaking, the input is correct
-        // Move to the next round or perform any necessary actions
+
         isGameRunning = false
     }
 }
