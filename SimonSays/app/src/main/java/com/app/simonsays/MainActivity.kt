@@ -103,6 +103,15 @@ class MainActivity : AppCompatActivity() {
         soundPool.play(soundID, 1f, 1f, 1, 0, 1f)
     }
 
+    private fun playSequence() {
+        sequenceList.forEachIndexed { index, color ->
+            Handler().postDelayed({
+                playSound(soundList[color - 1])
+                // You can add visual feedback here if needed
+            }, index * 2000)
+        }
+    }
+
     private fun startRound(listLength: Int = 4) {
         isGameRunning = true
         sequenceList.clear()
@@ -111,17 +120,9 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until listLength) {
             sequenceList.add((1..4).random())
         }
+
         Log.d("simon", "This round's list: $sequenceList")
-
-
-
-//        sequenceList.forEach {
-//
-//            Handler().postDelayed({
-//                playSound(it)
-//            }, 2000)
-//        }
-
+        playSequence()
     }
 
     private fun checkInput() {
