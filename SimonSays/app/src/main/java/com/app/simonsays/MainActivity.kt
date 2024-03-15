@@ -7,7 +7,9 @@ import android.media.SoundPool
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -18,6 +20,10 @@ class MainActivity : AppCompatActivity() {
     private var soundList : MutableList<Int> = mutableListOf()
     private var userInput : MutableList<Int> = mutableListOf()
     private var isGameRunning = false
+    private var delayBetweenSounds : Long = 2000
+    private var listLength = 4
+    private lateinit var scoreText : TextView
+    private var scoreNumber : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         val builder = SoundPool.Builder()
         builder.setAudioAttributes(audioAttributes).setMaxStreams(1)
         soundPool = builder.build()
+
+        scoreText = findViewById(R.id.scoreText)
+        scoreText.text = scoreNumber.toString()
 
         val redSound = soundPool.load(this, R.raw.red_sound, 1)
         val greenSound = soundPool.load(this, R.raw.green_sound, 1)
@@ -105,14 +114,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun playSequence() {
         sequenceList.forEachIndexed { index, color ->
-            Handler().postDelayed({
+            findViewById<View>(android.R.id.content).postDelayed({
                 playSound(soundList[color - 1])
-                // You can add visual feedback here if needed
-            }, index * 2000)
+
+            }, (index + 1) * delayBetweenSounds)
         }
     }
 
-    private fun startRound(listLength: Int = 4) {
+    private fun startRound() {
         isGameRunning = true
         sequenceList.clear()
         userInput.clear()
@@ -128,11 +137,32 @@ class MainActivity : AppCompatActivity() {
     private fun checkInput() {
         for (i in userInput.indices) {
             if (sequenceList[i] != userInput[i]) {
-                Log.d("simon", "You lost")
-                isGameRunning = false
+                roundFailed()
                 return
             }
         }
+
+        if (userInput.size == sequenceList.size) {
+            roundComplete()
+        }
+    }
+
+    private fun roundFailed() {
+        Log.d("simon", "You lost")
+        listLength = 4
+
+        scoreNumber = 0
+        scoreText.text = scoreNumber.toString()
+
+        isGameRunning = false
+    }
+
+    private fun roundComplete() {
+        Log.d("simon", "You won")
+        listLength++
+
+        scoreNumber++
+        scoreText.text = scoreNumber.toString()
 
         isGameRunning = false
     }
